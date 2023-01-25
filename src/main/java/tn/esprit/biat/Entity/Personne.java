@@ -1,21 +1,12 @@
-package tn.esprit.hexacode.Entity;
+package tn.esprit.biat.Entity;
 
 import java.io.Serializable;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 
 import lombok.AllArgsConstructor;
@@ -36,19 +27,33 @@ public class Personne implements Serializable{
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
-	@Temporal(TemporalType.DATE)
-	private Date Dob;
-	private String PhotoProfil;
-	private String Headline;
-	private String current_position;
-	private String education;
-	private String location;
-	private String contact_info;
-	private String experience;
-	private Long points ; 
-	
+	private String nom;
+	private String prenom;
+	private int age;
+	private int cin;
+	private String email;
+	private Date dateNaissance;
+	@Enumerated
+	private Sexe sexe;
+	private int telPersonnel;
+	private int telPoste;
+	private String agence ;
+	private String password ;
 
-	
 
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Role> roles;
+
+	@ManyToOne
+	@JoinColumn(name = "departement_id")
+	private Departement departement ;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	private Set<ActiviteAmicale> activiteAmicales;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="personne")
+	private Set<Reclamation> reclamations ;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="personne1")
+	private Set<Posts> posts ;
 }

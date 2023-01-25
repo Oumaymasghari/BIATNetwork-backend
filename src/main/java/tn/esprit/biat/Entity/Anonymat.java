@@ -1,2 +1,5 @@
-package tn.esprit.biat.Entity;public enum Anonymat {
+package tn.esprit.biat.Entity;
+
+public enum Anonymat {
+    anonyme, nonAnonyme
 }

@@ -1,2 +1,5 @@
-package tn.esprit.biat.Entity;public enum Sexe {
+package tn.esprit.biat.Entity;
+
+public enum Sexe {
+    femme ,homme
 }
