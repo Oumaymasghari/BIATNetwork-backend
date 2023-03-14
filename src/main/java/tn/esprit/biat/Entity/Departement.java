@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -22,4 +21,6 @@ public class Departement  implements Serializable  {
     private Long id;
     private String nomDepatement ;
     private int etage;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="personne")
+    private Set<User> user ;
 }

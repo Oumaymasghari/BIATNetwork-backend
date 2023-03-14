@@ -13,16 +13,21 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@DiscriminatorValue("2")
+
 public class Vente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
     private String article ;
     private String dateDisponibilite ;
     private int prix ;
     private String place ;
     @Enumerated(EnumType.STRING)
     private TypeVente typeVente ;
+    private String contactNumber ;
+    @ManyToOne
+    private User personne3 ;
 }

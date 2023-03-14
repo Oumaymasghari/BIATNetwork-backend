@@ -7,25 +7,30 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//@Table(name = "biat_posts")
+
 public class Posts implements Serializable  {
     private static final long serialVersionUID = 1L;
+
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
     private String text ;
-    private String file;
+    private String files;
 
     @ManyToOne
-    private Personne personne1 ;
+    private User personne1 ;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="posts")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="posts_id")
     private Set<PostComment> postComments ;
 
 }

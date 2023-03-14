@@ -12,22 +12,25 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@Table
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Inheritance( strategy = InheritanceType.SINGLE_TABLE )
-@DiscriminatorColumn( name="discriminator", discriminatorType = DiscriminatorType.INTEGER )
+
 public class PostComment implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String text ;
-    private String author;
-    private Date date ;
+    private String comment_text ;
+    private String comment_author;
+    private Date comment_date ;
 
     @ManyToOne
-    private Posts posts ;
+    private Posts posts_id ;
+
+    @ManyToOne
+    private Covoiturage covoiturage;
 
 
 }

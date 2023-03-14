@@ -31,7 +31,7 @@ public class PersonneServiceImp implements  IpersonneService{
     @Autowired
     PersonneRepository personneRepository ;
 
-
+/*
 
     @Override
     public Personne register(Personne p) {
@@ -53,11 +53,7 @@ public class PersonneServiceImp implements  IpersonneService{
 
 
 
-	/*	AppUser appUser = appUserRepository.findByUsername(username);
 
-		if(appUser == null) throw new UsernameNotFoundException(username);
-
-		return new User(appUser.getUsername(),appUser.getPassword(),getAuthorities(appUser.getRoles()));*/
     }
 
 
@@ -75,20 +71,13 @@ public class PersonneServiceImp implements  IpersonneService{
         return grantedAuthorities;
 
 
+    }
 
+ */
 
-//
-//		List<GrantedAuthority> grantedAuthorities = userRoles.stream()
-//		.map(role -> new SimpleGrantedAuthority(role.getRole()))
-//		.collect(Collectors.toList());
-//
-////		 ces 3 lignes ci-dessus de codes sont équivalants à ce logique:
-////		List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-////		for (Role role : userRoles) {
-////			roles.add(new SimpleGrantedAuthority(role.getNom()));
-////		}
-//		grantedAuthorities.stream().forEach(r -> System.out.println(r));
-//		return grantedAuthorities;
+    @Override
+    public Personne register(Personne p) {
+        return null;
     }
 
     @Override
@@ -112,6 +101,7 @@ public class PersonneServiceImp implements  IpersonneService{
 
     @Override
     public Personne modifyPersonne(Personne p) {
+
         return personneRepository.save(p);
     }
 
@@ -142,6 +132,8 @@ public class PersonneServiceImp implements  IpersonneService{
     }
 
 
-
-
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
 }

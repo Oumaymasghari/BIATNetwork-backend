@@ -24,6 +24,6 @@ public class ActiviteAmicale implements Serializable  {
     private String description ;
     private Cathegorie cathegorie ;
 
-    @ManyToMany(mappedBy="activiteAmicales", cascade = CascadeType.ALL)
-    private Set<Personne> personnes;
+    //@ManyToMany(mappedBy="activiteAmicales", cascade = CascadeType.ALL)
+    //private Set<User> personnes;
 }

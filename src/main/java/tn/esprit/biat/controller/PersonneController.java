@@ -20,30 +20,10 @@ public class PersonneController {
     @Autowired
     IpersonneService personneService ;
 
-
-    // Set a form validator
-   /* @InitBinder
-    protected void initBinder(WebDataBinder dataBinder) {
-        // Form target
-        Object target = dataBinder.getTarget();
-        if (target == null) {
-            return;
-        }
-        System.out.println("Target=" + target);
-
-        if (target.getClass() == PersonneFormValidation.class) {
-            dataBinder.setValidator(validator);
-        }
-        // ...
-    }
-
-*/
-
     @PostMapping("/registration")
 
     public String createNewUser( @RequestBody Personne user) {
         String hello="";
-        System.out.println(user.getPassword());
         Personne userExists = personneService.findAppUserByEmail(user.getEmail());
 
         if (userExists != null) {
@@ -60,7 +40,7 @@ public class PersonneController {
         return hello; }
     @PostMapping("/add-Personne")
     @ResponseBody
-    // http://localhost:8089/SpringMVC/personne/add-Personne
+    // http://localhost:8089/add-Personne
     public Personne addPersonne(@RequestBody Personne p) {
 
         return personneService.addPersonne(p);
@@ -68,21 +48,21 @@ public class PersonneController {
 
     }
 
-    // http://localhost:8089/SpringMVC/personne/retrieve-all-Personne
+    // http://localhost:8089/retrieve-all-Personne
     @GetMapping("/retrieve-all-Personne")
     @ResponseBody
     public List<Personne> RetrieveAllPersonne(){
         List<Personne> p =personneService.RetrieveAllPersonnes();
         return p ;
     }
-    // http://localhost:8089/SpringMVC/personne/retrieve-personne/{personne-id}
+    // http://localhost:8089/retrieve-personne/{personne-id}
     @GetMapping("/retrieve-personne/{personne-id}")
     @ResponseBody
     public Personne retrievpersonne(@PathVariable("personne-id") long id){
         return personneService.retrievePersonne(id);
     }
 
-    //localhost:8089/SpringMVC/personne/modify-personne
+    //localhost:8089/modify-personne
     @PutMapping("/modify-personne")
     @ResponseBody
     public Personne modifypersonne (@RequestBody Personne p){
@@ -91,7 +71,7 @@ public class PersonneController {
         return personneService.modifyPersonne(p);
     }
 
-    //localhost:8089/SpringMVC/personne/delete-personne/{personne-id}
+    //localhost:8089/delete-personne/{personne-id}
     @DeleteMapping("/delete-personne/{personne-id}")
     @ResponseBody
     void deletepersonne(@PathVariable("personne-id") long id){
