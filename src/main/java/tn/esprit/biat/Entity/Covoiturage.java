@@ -1,5 +1,6 @@
 package tn.esprit.biat.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,19 +33,21 @@ public class Covoiturage  implements Serializable {
     private int nbPersonne ;
     private int prix ;
     private String contactNumber ;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date datePost ;
 
     // Reaction properties
-    private Integer  likeCount ;
-    private Integer loveCount;
-    private Integer thumbsUpCount ;
-    private Integer thumbsDownCount ;
-    private Integer celebrationCount ;
+    private Integer  likeCount = 0 ;
+    private Integer loveCount = 0;
+    private Integer thumbsUpCount  = 0;
+    private Integer thumbsDownCount = 0 ;
+    private Integer celebrationCount = 0 ;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User user ;
     @OneToMany(mappedBy = "cov", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reactions> reactions = new ArrayList<>();
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy="covoiturage")
-    private Set<PostComment> postComments ;
+     List<PostComment> postComments ;
 
 }

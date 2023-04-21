@@ -22,7 +22,8 @@ public class Personne {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String username;
+	@Lob
+	private byte[] profilePic;
 	private String nom;
 	private String prenom;
 	private int age;
@@ -34,7 +35,7 @@ public class Personne {
 	private int telPersonnel;
 	private int telPoste;
 	private String agence ;
-
+	private String profilePicUrl;
 
 
 

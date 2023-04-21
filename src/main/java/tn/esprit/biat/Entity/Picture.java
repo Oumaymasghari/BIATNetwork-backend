@@ -13,25 +13,19 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Reactions implements Serializable {
+public class Picture implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "emoji")
-    private String emoji;
+    private String name;
 
-    @Column(name = "count")
-    private int count;
+    @Lob
+    private byte[] data;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cov_id")
-    private Covoiturage cov;
-
-
-    public Reactions(String emoji) {
-        this.emoji = emoji;
-    }
+    @ManyToOne
+    @JoinColumn(name = "vente_id", nullable = false)
+    private Vente vente;
 }

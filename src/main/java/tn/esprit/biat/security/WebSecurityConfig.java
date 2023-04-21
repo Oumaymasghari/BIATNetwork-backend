@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +24,7 @@ import tn.esprit.biat.security.jwt.AuthEntryPointJwt;
 import tn.esprit.biat.security.jwt.AuthTokenFilter;
 
 import tn.esprit.biat.service.UserDetailsServiceImpl;
-
+@EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(
     // securedEnabled = true,
@@ -91,7 +92,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeRequests().antMatchers("/api/auth/**").permitAll()
         .antMatchers("/api/test/**").permitAll()
-        //    .antMatchers(HttpMethod.POST,"/Posts/add-Posts").hasAuthority("PERSONNEL")
+
+    //    .antMatchers(HttpMethod.POST,"/Posts/add-Posts").hasAuthority("PERSONNEL")
         .anyRequest().authenticated();
     
     http.authenticationProvider(authenticationProvider());

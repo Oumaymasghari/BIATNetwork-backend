@@ -1,5 +1,6 @@
 package tn.esprit.biat.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -24,12 +26,14 @@ public class PostComment implements Serializable {
     private Long id;
     private String comment_text ;
     private String comment_author;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date comment_date ;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Posts posts_id ;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Covoiturage covoiturage;
 
 

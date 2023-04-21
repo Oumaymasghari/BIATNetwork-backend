@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +21,11 @@ import org.springframework.stereotype.Service;
 
 import tn.esprit.biat.Entity.Personne;
 import tn.esprit.biat.Entity.Role;
+import tn.esprit.biat.Entity.User;
 import tn.esprit.biat.repository.PersonneRepository;
+
+import javax.persistence.EntityNotFoundException;
+
 @EnableAutoConfiguration
 @Service
 public class PersonneServiceImp implements  IpersonneService{
@@ -131,9 +134,18 @@ public class PersonneServiceImp implements  IpersonneService{
         return null;
     }
 
+    @Override
+    public Personne getPersonneByUser(Long userid) {
+        Optional<Personne> optionalPersonne = personneRepository.findById(userid);
+        return optionalPersonne.orElseThrow(() -> new EntityNotFoundException("Personne not found"));
+    }
+    public Optional<Personne> findByUserId(Long userId) {
+        return personneRepository.findByUserId(userId);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         return null;
     }
 }

@@ -1,26 +1,34 @@
 package tn.esprit.biat.controller;
 
+import org.slf4j.Logger;
+
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.biat.Entity.Covoiturage;
+import tn.esprit.biat.Entity.PostComment;
 import tn.esprit.biat.Entity.Reactions;
 import tn.esprit.biat.repository.CovoiturageRepository;
+import tn.esprit.biat.repository.PostCommentRepository;
 import tn.esprit.biat.service.ICovoiturageService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/Covoiturage")
 @RestController
 public class CovoiturageController {
-
+    private static final Logger logger = LoggerFactory.getLogger(CovoiturageController.class);
     @Autowired
     ICovoiturageService covoiturageService ;
     @Autowired
     CovoiturageRepository covoiturageRepository ;
+    @Autowired
+    PostCommentRepository postCommentRepository;
 
     @PostMapping("/add-Covoiturage")
     @PreAuthorize("hasRole('ROLE_PERSONNEL') or hasRole('ROLE_RH')")
@@ -63,10 +71,13 @@ public class CovoiturageController {
         covoiturageService.deleteCovoiturage(id);
     }
     @PostMapping("/reactions/{covId}")
-    public Covoiturage addReaction(@PathVariable("covId") long covId, @RequestBody Reactions
+    public Covoiturage addReaction(@PathVariable("covId") Long covId, @RequestBody Reactions
             reaction) {
-        Covoiturage covoiturage = covoiturageRepository.findById(covId).orElse(null);
 
+        Covoiturage covoiturage = covoiturageRepository.findCovoiturageById(covId).get();
+     //System.out.println("emoji = "+reaction.getEmoji()+"\n");
+     //System.out.println("covoiturage.getLikeCount() = "+covoiturage.getLikeCount());
+        logger.info("Request body: " + reaction.toString());
         switch (reaction.getEmoji()) {
             case "😀":
                 covoiturage.setLikeCount(covoiturage.getLikeCount() + 1);
@@ -91,5 +102,12 @@ public class CovoiturageController {
         return covoiturageRepository.save(covoiturage);
     }
 
+    @PostMapping("/comments/{covoiturageId}")
+    public ResponseEntity<PostComment> addComment(@PathVariable Long covoiturageId, @RequestBody PostComment comment) {
+        Covoiturage covoiturage = covoiturageRepository.findById(covoiturageId).orElse(null);
+        comment.setCovoiturage(covoiturage);
+        PostComment savedComment = postCommentRepository.save(comment);
+        return ResponseEntity.ok(savedComment);
+    }
 
 }
