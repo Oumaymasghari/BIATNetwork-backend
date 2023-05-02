@@ -104,6 +104,6 @@ public class User {
   @OneToMany(cascade = CascadeType.ALL, mappedBy="personne1")
   private Set<Posts> posts ;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy="personne3")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
   private Set<Vente> vente ;
 }

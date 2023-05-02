@@ -28,7 +28,7 @@ public class Vente implements Serializable {
 
     private String article ;
 
-    private Date dateDisponibilite ;
+
 
     private int prix ;
 
@@ -39,8 +39,8 @@ public class Vente implements Serializable {
     private int contactNumber ;
     private boolean accepted=false;
 
-    @ManyToOne
-    private User personne3 ;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private User user ;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="vente")
     @JsonIgnoreProperties("vente")
