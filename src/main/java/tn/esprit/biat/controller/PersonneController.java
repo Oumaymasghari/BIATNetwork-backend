@@ -101,10 +101,13 @@ public class PersonneController {
         return ResponseEntity.ok(fileDownloadUri);
     }
     @GetMapping("/getProfilePicUrl/{userId}")
-    public String getProfilePicUrl(@PathVariable Long userId) {
+    public ResponseEntity<String> getProfilePicUrl(@PathVariable Long userId) {
         Personne personne = personneRepository.findById(userId).orElse(null);
-            return personne.getProfilePicUrl();
-
+        if (personne == null || personne.getProfilePic() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        String profilePic = Base64.getEncoder().encodeToString(personne.getProfilePic());
+        return ResponseEntity.ok("{\"data\":\"data:image/jpeg;base64," + profilePic + "\"}");
     }
     // http://localhost:8089/getPersonneByUser/{userid}
     @GetMapping("/getPersonneByUser/{userid}")
