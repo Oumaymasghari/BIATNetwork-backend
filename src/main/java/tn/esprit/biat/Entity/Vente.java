@@ -35,7 +35,7 @@ public class Vente implements Serializable {
     private String place ;
     @Enumerated(EnumType.STRING)
     private TypeVente typeVente ;
-
+    private byte[] profilePic;
     private int contactNumber ;
     private boolean accepted=false;
 

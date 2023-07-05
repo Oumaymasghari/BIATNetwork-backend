@@ -29,7 +29,11 @@ public class VenteServiceImp implements  IventeService{
        Vente vente =venteRepository.findById(id).orElse(null);
         return vente;
     }
-
+    @Override
+    public Vente modifyVenteById(Long id) {
+        Vente c = venteRepository.findById(id).orElse(null);
+        return venteRepository.save(c);
+    }
     @Override
     public Vente modifyVente(Vente c) {
         return venteRepository.save(c);

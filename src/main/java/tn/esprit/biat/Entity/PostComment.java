@@ -28,7 +28,7 @@ public class PostComment implements Serializable {
     private String comment_author;
     @Temporal(TemporalType.TIMESTAMP)
     private Date comment_date ;
-
+    private byte[] profilePic;
     @ManyToOne(fetch = FetchType.LAZY)
     private Posts posts_id ;
 

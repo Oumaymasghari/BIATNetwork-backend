@@ -22,6 +22,7 @@ import tn.esprit.biat.Entity.Personne;
 import tn.esprit.biat.Entity.Role;
 import tn.esprit.biat.Entity.User;
 
+import tn.esprit.biat.repository.PersonneRepository;
 import tn.esprit.biat.repository.RoleRepository;
 
 import tn.esprit.biat.repository.UserRepository;
@@ -49,6 +50,8 @@ public class AuthController {
   @Autowired
   PasswordEncoder encoder;
 
+  @Autowired
+  PersonneRepository personneRepository;
   @Autowired
   JwtUtils jwtUtils;
 
@@ -92,7 +95,7 @@ public class AuthController {
                signUpRequest.getEmail(),
                encoder.encode(signUpRequest.getPassword()));
 
-    Set<String> strRoles = signUpRequest.getRole();
+    String strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
 
     if (strRoles == null) {
@@ -100,7 +103,7 @@ public class AuthController {
           .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
       roles.add(userRole);
     } else {
-      strRoles.forEach(role -> {
+    /*  strRoles.forEach(role -> {
         switch (role) {
           case "admin":
           Role adminRole = roleRepository.findByName(ERole.ROLE_RH)
@@ -115,9 +118,25 @@ public class AuthController {
             roles.add(userRole);
 
         }
-      });
-    }
+      });*/
+      switch (strRoles) {
+        case "rh":
+          Role adminRole = roleRepository.findByName(ERole.ROLE_RH)
+                  .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+          roles.add(adminRole);
 
+          break;
+        case "personnel":
+          Role modRole = roleRepository.findByName(ERole.ROLE_PERSONNEL)
+                  .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+          roles.add(modRole);
+
+          break;
+
+      }
+    }
+/*Personne per=personneRepository.findByUserId(user.getId()).orElse(null);
+    user.setProfilePic(per.getProfilePic());*/
     user.setRoles(roles);
     userRepository.save(user);
 

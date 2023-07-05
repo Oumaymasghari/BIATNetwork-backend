@@ -31,6 +31,7 @@ public class User {
   @NotBlank
   @Size(max = 120)
   private String password;
+  private byte[] profilePic;
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
@@ -86,7 +87,13 @@ public class User {
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
   }
+  public byte[] getProfilePic() {
+    return profilePic;
+  }
 
+  public void setProfilePic(byte[] profilePic) {
+    this.profilePic = profilePic;
+  }
   @OneToOne
   private Personne personne ;
 

@@ -11,4 +11,5 @@ public interface IventeService {
     Vente retrieveVente(Long id );
     Vente modifyVente(Vente c) ;
     void deleteVente(Long id) ;
+    public Vente modifyVenteById(Long id);
 }

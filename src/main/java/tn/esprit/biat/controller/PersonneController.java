@@ -60,6 +60,7 @@ public class PersonneController {
     public Personne addPersonne(@PathVariable Long userid,@RequestBody Personne p) {
         User user =userRepository.findById(userid).orElse(null);
         p.setUser(user);
+        user.setProfilePic(p.getProfilePic());
         return personneService.addPersonne(p);
 
 

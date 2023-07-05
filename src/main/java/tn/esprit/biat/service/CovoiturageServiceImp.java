@@ -55,7 +55,11 @@ public class CovoiturageServiceImp implements ICovoiturageService {
     public Covoiturage modifyCovoiturage(Covoiturage c) {
         return covoiturageRepository.save(c);
     }
-
+    @Override
+    public Covoiturage modifyCovoiturageById(Long id) {
+        Covoiturage c = covoiturageRepository.findById(id).orElse(null);
+        return covoiturageRepository.save(c);
+    }
     @Override
     public void deleteCovoiturage(Long id) {
         covoiturageRepository.deleteById(id);

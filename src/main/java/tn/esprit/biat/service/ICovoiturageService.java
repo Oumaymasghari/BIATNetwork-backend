@@ -11,4 +11,5 @@ public interface ICovoiturageService {
     Covoiturage retrieveCovoiturage(Long id );
     Covoiturage modifyCovoiturage(Covoiturage c) ;
     void deleteCovoiturage(Long id) ;
+    public Covoiturage modifyCovoiturageById(Long id);
 }

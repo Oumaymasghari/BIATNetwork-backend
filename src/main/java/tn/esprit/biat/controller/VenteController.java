@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.biat.Entity.*;
+import tn.esprit.biat.repository.PersonneRepository;
 import tn.esprit.biat.repository.UserRepository;
 import tn.esprit.biat.repository.VenteRepository;
 import tn.esprit.biat.request.CreditRequest;
@@ -42,7 +43,8 @@ public class VenteController {
     private EmailService emailService;
     @Autowired
     AuthenticationManager authenticationManager;
-
+    @Autowired
+    PersonneRepository personneRepository;
 
     @PreAuthorize("hasRole('ROLE_PERSONNEL') or hasRole('ROLE_RH')")
     @GetMapping("/getAllVentes")
@@ -86,6 +88,10 @@ public class VenteController {
                 String body = "Une nouvelle vente a été ajoutée. ID de vente : " + savedVente.getId();
                 emailService.sendEmail(to, subject, body);
             }
+            Long userId=savedVente.getUser().getId();
+            Personne personne = personneRepository.findPersonneByUserId(userId);
+            savedVente.setProfilePic(personne.getProfilePic());
+            venteService.modifyVenteById(venteService.addVente(savedVente).getId());
             return savedVente;
         } catch (IOException e) {
             throw new RuntimeException("Failed to upload picture(s)!");

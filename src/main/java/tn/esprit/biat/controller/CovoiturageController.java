@@ -8,13 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.biat.Entity.Covoiturage;
+import tn.esprit.biat.Entity.Personne;
 import tn.esprit.biat.Entity.PostComment;
 import tn.esprit.biat.Entity.Reactions;
 import tn.esprit.biat.repository.CovoiturageRepository;
+import tn.esprit.biat.repository.PersonneRepository;
 import tn.esprit.biat.repository.PostCommentRepository;
 import tn.esprit.biat.service.ICovoiturageService;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -29,15 +32,18 @@ public class CovoiturageController {
     CovoiturageRepository covoiturageRepository ;
     @Autowired
     PostCommentRepository postCommentRepository;
-
+    @Autowired
+    PersonneRepository personneRepository;
     @PostMapping("/add-Covoiturage")
     @PreAuthorize("hasRole('ROLE_PERSONNEL') or hasRole('ROLE_RH')")
     // http://localhost:8089/Covoiturage/add-Covoiturage
-    public Covoiturage addCovoiturage(@RequestBody Covoiturage C) {
-
-        return covoiturageService.addCovoiturage(C);
-
-
+    public Covoiturage addCovoiturage(@RequestBody Covoiturage covoiturage) {
+        covoiturage.setDatePost(LocalDate.now());
+        Long userId = covoiturageService.addCovoiturage(covoiturage).getUser().getId();
+        Personne personne = personneRepository.findPersonneByUserId(userId);
+        covoiturage.setProfilePic(personne.getProfilePic());
+        covoiturageService.modifyCovoiturageById(covoiturageService.addCovoiturage(covoiturage).getId());
+        return covoiturage;
     }
 
     // http://localhost:8089/Covoiturage/retrieve-all-Covoiturage
@@ -62,6 +68,7 @@ public class CovoiturageController {
 
         return covoiturageService.modifyCovoiturage(C);
     }
+
 
     //localhost:8089/Covoiturage/delete-Covoiturage/{Covoiturage-id}
     @DeleteMapping("/delete-Covoiturage/{Covoiturage-id}")
@@ -107,6 +114,7 @@ public class CovoiturageController {
         Covoiturage covoiturage = covoiturageRepository.findById(covoiturageId).orElse(null);
         comment.setCovoiturage(covoiturage);
         PostComment savedComment = postCommentRepository.save(comment);
+        
             return ResponseEntity.ok(savedComment);
     }
 

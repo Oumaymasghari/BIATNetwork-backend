@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,8 +34,8 @@ public class Covoiturage  implements Serializable {
     private int nbPersonne ;
     private int prix ;
     private String contactNumber ;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date datePost ;
+    private byte[] profilePic;
+    private  LocalDate datePost ;
 
     // Reaction properties
     private Integer  likeCount = 0 ;
